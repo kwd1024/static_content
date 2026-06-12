@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kris's AI Weather Report — North Versailles / McKeesport, PA 15137</title>
+  <style>
+    :root {
+      --bg:        #0d1117;
+      --surface:   #161b22;
+      --card:      #1e2535;
+      --border:    #30363d;
+      --accent1:   #58a6ff;
+      --accent2:   #f78166;
+      --accent3:   #3fb950;
+      --accent4:   #e3b341;
+      --text:      #e6edf3;
+      --muted:     #8b949e;
+      --danger:    #f85149;
+      --warn:      #e3b341;
+      --ok:        #3fb950;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      padding: 0 0 60px;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, #0e2a4a 0%, #1a3a5c 50%, #0e2a4a 100%);
+      border-bottom: 2px solid var(--accent1);
+      padding: 36px 40px 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(88,166,255,.08) 0%, transparent 70%);
+    }
+    header h1 {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -.5px;
+    }
+    header h1 span { color: var(--accent1); }
+    .header-sub {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .header-sub .tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .88rem;
+      color: #aac4de;
+    }
+    .header-sub .tag strong { color: #d2e8ff; }
+
+    /* ── Main layout ── */
+    main { max-width: 1300px; margin: 0 auto; padding: 32px 24px 0; }
+    section { margin-bottom: 44px; }
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--accent1);
+      border-left: 3px solid var(--accent1);
+      padding-left: 12px;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+    }
+
+    /* ── Consensus metric boxes ── */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+      gap: 14px;
+    }
+    .metric-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--accent1);
+      border-radius: 10px;
+      padding: 16px 14px;
+      text-align: center;
+    }
+    .metric-box.warn  { border-top-color: var(--warn); }
+    .metric-box.ok    { border-top-color: var(--ok); }
+    .metric-box.hot   { border-top-color: var(--accent2); }
+    .metric-box label {
+      display: block;
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .metric-box .val {
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+    }
+    .metric-box .sub {
+      font-size: .78rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .metric-box .conf {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: .68rem;
+      border-radius: 10px;
+      padding: 2px 8px;
+      font-weight: 600;
+      letter-spacing: .4px;
+    }
+    .conf-hi  { background: #1a3d1a; color: #3fb950; }
+    .conf-med { background: #3d3316; color: #e3b341; }
+    .conf-lo  { background: #3d1a1a; color: #f85149; }
+
+    /* ── Summary paragraph ── */
+    .summary-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent3);
+      border-radius: 10px;
+      padding: 20px 24px;
+      line-height: 1.8;
+      color: #cdd9e5;
+      font-size: .97rem;
+    }
+
+    /* ── Source cards ── */
+    .source-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 18px;
+    }
+    .source-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .source-card h3 {
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--accent4);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .source-card h3 .src-badge {
+      font-size: .68rem;
+      background: rgba(227,179,65,.15);
+      color: var(--accent4);
+      border: 1px solid rgba(227,179,65,.3);
+      border-radius: 8px;
+      padding: 1px 8px;
+      font-weight: 600;
+    }
+    .data-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(48,54,61,.7);
+      font-size: .88rem;
+    }
+    .data-row:last-child { border-bottom: none; }
+    .data-row .dk { color: var(--muted); }
+    .data-row .dv { font-weight: 600; color: var(--text); }
+    .data-row .dv.hi { color: #ff8080; }
+    .data-row .dv.lo { color: #80c8ff; }
+    .data-row .dv.ok { color: #3fb950; }
+
+    /* ── Hourly table ── */
+    .tbl-wrap {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .83rem;
+    }
+    thead th {
+      background: #1a2233;
+      color: var(--accent1);
+      font-weight: 600;
+      text-align: center;
+      padding: 10px 8px;
+      border-bottom: 2px solid var(--accent1);
+      white-space: nowrap;
+    }
+    thead th:first-child { text-align: left; padding-left: 14px; }
+    tbody tr { border-bottom: 1px solid rgba(48,54,61,.5); }
+    tbody tr:hover { background: rgba(88,166,255,.05); }
+    tbody tr.day-divider td {
+      background: #1a2233;
+      color: var(--accent4);
+      font-weight: 700;
+      font-size: .8rem;
+      text-align: center;
+      padding: 6px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    tbody td {
+      text-align: center;
+      padding: 8px 8px;
+      color: var(--text);
+    }
+    tbody td:first-child { text-align: left; padding-left: 14px; font-weight: 600; white-space: nowrap; }
+    .cell-hot  { color: #ff8080; font-weight: 700; }
+    .cell-warm { color: #e3b341; }
+    .cell-ok   { color: #3fb950; }
+    .cell-cool { color: #80c8ff; }
+    .cell-hi-pcpn { color: #f85149; font-weight: 700; }
+    .cell-med-pcpn { color: var(--warn); }
+
+    /* ── Comparison table ── */
+    .comp-wrap {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .comp-table thead th {
+      border-bottom: 2px solid var(--accent4);
+      color: var(--accent4);
+      background: #1d1e14;
+    }
+    .comp-table thead th.consensus-col {
+      background: #112211;
+      color: var(--accent3);
+      border-bottom-color: var(--accent3);
+    }
+    .comp-table tbody td.consensus-col {
+      background: rgba(63,185,80,.07);
+      font-weight: 700;
+      color: #b0f0b8;
+    }
+    .comp-table tbody td { padding: 9px 10px; }
+    .comp-table tbody td:first-child {
+      font-weight: 600;
+      color: var(--muted);
+      text-align: left;
+      padding-left: 14px;
+      white-space: nowrap;
+    }
+    .badge-hi  { background: #1a3d1a; color: #3fb950; border-radius: 8px; padding: 2px 8px; font-size: .72rem; font-weight: 700; }
+    .badge-med { background: #3d3316; color: #e3b341; border-radius: 8px; padding: 2px 8px; font-size: .72rem; font-weight: 700; }
+    .badge-lo  { background: #3d1a1a; color: #f85149; border-radius: 8px; padding: 2px 8px; font-size: .72rem; font-weight: 700; }
+
+    /* ── Footnote ── */
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: .78rem;
+      padding: 24px;
+      border-top: 1px solid var(--border);
+      margin-top: 48px;
+    }
+    footer a { color: var(--accent1); text-decoration: none; }
+
+    @media (max-width: 640px) {
+      header { padding: 24px 16px 20px; }
+      header h1 { font-size: 1.5rem; }
+      main { padding: 20px 12px 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════════ -->
+<header>
+  <h1>&#9925; Kris's <span>AI Weather Report</span></h1>
+  <div class="header-sub">
+    <div class="tag">&#128205; <strong>North Versailles / McKeesport, PA 15137</strong></div>
+    <div class="tag">&#128197; Forecast Date: <strong>June 11, 2026 &nbsp;&#8226;&nbsp; 8:43 PM EDT</strong></div>
+    <div class="tag">&#9881; Report Generated: <strong>June 11, 2026 &mdash; Multi-Source AI Compilation</strong></div>
+  </div>
+</header>
+
+<main>
+
+<!-- ══════════════════════════════════════════════
+     CONSENSUS SUMMARY
+══════════════════════════════════════════════ -->
+<section>
+  <h2>&#9733; Consensus Summary</h2>
+  <div class="metric-grid">
+
+    <div class="metric-box hot">
+      <label>Today's High</label>
+      <div class="val">90°F</div>
+      <div class="sub">Fox Weather reported</div>
+      <span class="conf conf-lo">Low Confidence</span>
+    </div>
+
+    <div class="metric-box">
+      <label>Tonight's Low</label>
+      <div class="val">70°F</div>
+      <div class="sub">NWS: 70°F &nbsp;·&nbsp; Fox: 69°F</div>
+      <span class="conf conf-hi">High Confidence</span>
+    </div>
+
+    <div class="metric-box warn">
+      <label>Current Temp (8:43 PM)</label>
+      <div class="val">71°F</div>
+      <div class="sub">NWS: 72°F &nbsp;·&nbsp; Fox/WU: 70–71°F</div>
+      <span class="conf conf-hi">High Confidence</span>
+    </div>
+
+    <div class="metric-box hot">
+      <label>Peak Heat Index</label>
+      <div class="val">87°F</div>
+      <div class="sub">NWS digital (3–5 AM overnight)</div>
+      <span class="conf conf-med">Med Confidence</span>
+    </div>
+
+    <div class="metric-box warn">
+      <label>Humidity Range</label>
+      <div class="val">64–99%</div>
+      <div class="sub">NWS obs: 87% &nbsp;·&nbsp; Fox/WU: 98%</div>
+      <span class="conf conf-med">Med Confidence</span>
+    </div>
+
+    <div class="metric-box">
+      <label>Dew Point</label>
+      <div class="val">68–70°F</div>
+      <div class="sub">NWS: 68°F &nbsp;·&nbsp; WU: 69°F</div>
+      <span class="conf conf-hi">High Confidence</span>
+    </div>
+
+    <div class="metric-box ok">
+      <label>Precip Chance (Tonight)</label>
+      <div class="val">24–30%</div>
+      <div class="sub">Showers / T-storms before 5 AM</div>
+      <span class="conf conf-hi">High Confidence</span>
+    </div>
+
+    <div class="metric-box">
+      <label>Wind</label>
+      <div class="val">SW 5–8</div>
+      <div class="sub">mph &nbsp;·&nbsp; SSW shifting overnight</div>
+      <span class="conf conf-hi">High Confidence</span>
+    </div>
+
+    <div class="metric-box ok">
+      <label>UV Index</label>
+      <div class="val">0</div>
+      <div class="sub">Nighttime &mdash; No UV risk</div>
+      <span class="conf conf-hi">High Confidence</span>
+    </div>
+
+    <div class="metric-box">
+      <label>Sky Conditions</label>
+      <div class="val" style="font-size:1.2rem">Fair→Cloudy</div>
+      <div class="sub">Clear now; clouds increase overnight</div>
+      <span class="conf conf-hi">High Confidence</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     PLAIN-ENGLISH SUMMARY
+══════════════════════════════════════════════ -->
+<section>
+  <h2>&#128196; Conditions Summary</h2>
+  <div class="summary-box">
+    <p>
+      As of 8:43 PM EDT on Wednesday, June 11, 2026, North Versailles / McKeesport is experiencing warm and very humid late-evening conditions, with temperatures hovering near <strong>71°F</strong> and dew points in the upper 60s making the air feel noticeably muggy. Fox Weather reported the day's official high reached <strong>90°F</strong>, though NWS gridded forecast data indicates slightly lower peak values around 82–84°F — a discrepancy worth noting. All sources agree on a current "feels like" temperature close to the actual reading, with a heat index around <strong>84°F</strong> expected through the 8–9 PM window before slowly easing overnight.
+    </p>
+    <br/>
+    <p>
+      Skies are currently fair to partly cloudy, but conditions are set to deteriorate through the overnight hours. The National Weather Service flags a <strong>24–30% chance of showers and thunderstorms</strong> primarily between 2–5 AM, with the highest precipitation probability (up to 25%) occurring around 3 AM. Humidity will remain very high (90–91%) through early morning. Winds are light out of the SW/SSW at 5–8 mph, becoming slightly southerly overnight. A brief overnight low near <strong>69–70°F</strong> is expected. Looking ahead to Thursday, June 12, a much wetter day is on tap with precipitation likelihood climbing to <strong>71–77%</strong> during midday hours, before a clearing trend brings drier air from the northwest by evening.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SOURCE CARDS
+══════════════════════════════════════════════ -->
+<section>
+  <h2>&#127758; Individual Source Details</h2>
+  <div class="source-grid">
+
+    <!-- NWS Standard -->
+    <div class="source-card">
+      <h3>National Weather Service <span class="src-badge">NWS Standard</span></h3>
+      <div class="data-row"><span class="dk">Observation Time</span><span class="dv">7:53 PM EDT Jun 11</span></div>
+      <div class="data-row"><span class="dk">Current Temp</span><span class="dv hi">72°F</span></div>
+      <div class="data-row"><span class="dk">Relative Humidity</span><span class="dv">87%</span></div>
+      <div class="data-row"><span class="dk">Dew Point</span><span class="dv">68°F</span></div>
+      <div class="data-row"><span class="dk">Wind</span><span class="dv">SW 7 mph</span></div>
+      <div class="data-row"><span class="dk">Barometer</span><span class="dv">29.87 in (1011.1 mb)</span></div>
+      <div class="data-row"><span class="dk">Visibility</span><span class="dv">10.0 miles</span></div>
+      <div class="data-row"><span class="dk">Sky Condition</span><span class="dv ok">Fair</span></div>
+      <div class="data-row"><span class="dk">Tonight Low</span><span class="dv lo">70°F</span></div>
+      <div class="data-row"><span class="dk">Precip Chance (Tonight)</span><span class="dv">30%</span></div>
+      <div class="data-row"><span class="dk">Overnight Wind</span><span class="dv">S 6–8 mph</span></div>
+      <div class="data-row"><span class="dk">Overnight Conditions</span><span class="dv">Mostly Cloudy; Showers / T-storms before 5 AM</span></div>
+      <div class="data-row"><span class="dk">Tomorrow High</span><span class="dv hi">84°F</span></div>
+      <div class="data-row"><span class="dk">Heat Index Reported</span><span class="dv">Not stated</span></div>
+      <div class="data-row"><span class="dk">UV Index</span><span class="dv">Not stated (nighttime)</span></div>
+    </div>
+
+    <!-- NWS Digital -->
+    <div class="source-card">
+      <h3>National Weather Service <span class="src-badge">NWS Digital Hourly</span></h3>
+      <div class="data-row"><span class="dk">Last Update</span><span class="dv">8:41 PM EDT Jun 11</span></div>
+      <div class="data-row"><span class="dk">Station Elevation</span><span class="dv">1,155 ft</span></div>
+      <div class="data-row"><span class="dk">8 PM Temp / Heat Idx</span><span class="dv hi">82°F / 84°F</span></div>
+      <div class="data-row"><span class="dk">8 PM Humidity</span><span class="dv">64%</span></div>
+      <div class="data-row"><span class="dk">8 PM Dew Point</span><span class="dv">68°F</span></div>
+      <div class="data-row"><span class="dk">8 PM Wind</span><span class="dv">SW 6 mph</span></div>
+      <div class="data-row"><span class="dk">Peak Heat Idx (Tonight)</span><span class="dv hi">87°F (3–5 AM)</span></div>
+      <div class="data-row"><span class="dk">Overnight Low</span><span class="dv lo">71°F (~5 AM)</span></div>
+      <div class="data-row"><span class="dk">Peak Precip (Jun 12)</span><span class="dv" style="color:#f85149">77% (Noon)</span></div>
+      <div class="data-row"><span class="dk">Peak Overnight Precip</span><span class="dv">25% (3 AM)</span></div>
+      <div class="data-row"><span class="dk">Tomorrow High (Jun 12)</span><span class="dv hi">84°F (2–3 PM)</span></div>
+      <div class="data-row"><span class="dk">Tomorrow Low (Jun 12 night)</span><span class="dv lo">60°F</span></div>
+      <div class="data-row"><span class="dk">Coverage</span><span class="dv ok">Full 48-hr hourly</span></div>
+    </div>
+
+    <!-- Weather Underground -->
+    <div class="source-card">
+      <h3>Weather Underground <span class="src-badge">WU</span></h3>
+      <div class="data-row"><span class="dk">Station</span><span class="dv">West Wilmerding (local PWS)</span></div>
+      <div class="data-row"><span class="dk">Current Temp</span><span class="dv hi">71°F</span></div>
+      <div class="data-row"><span class="dk">Relative Humidity</span><span class="dv">98%</span></div>
+      <div class="data-row"><span class="dk">Dew Point</span><span class="dv">69°F</span></div>
+      <div class="data-row"><span class="dk">Pressure</span><span class="dv">29.8 in</span></div>
+      <div class="data-row"><span class="dk">Visibility</span><span class="dv">10 miles</span></div>
+      <div class="data-row"><span class="dk">Sky Condition</span><span class="dv">Partly Cloudy</span></div>
+      <div class="data-row"><span class="dk">Precip Recorded Today</span><span class="dv ok">0 in</span></div>
+      <div class="data-row"><span class="dk">Tonight Low</span><span class="dv lo">~70°F</span></div>
+      <div class="data-row"><span class="dk">Precip Chance (Tonight)</span><span class="dv">24%</span></div>
+      <div class="data-row"><span class="dk">Tonight Wind</span><span class="dv">SSW 5–10 mph</span></div>
+      <div class="data-row"><span class="dk">Tomorrow High</span><span class="dv hi">84°F</span></div>
+      <div class="data-row"><span class="dk">Sunrise / Sunset</span><span class="dv">5:50 AM / 8:50 PM</span></div>
+      <div class="data-row"><span class="dk">Daylight Hours</span><span class="dv">16 hr 6 min</span></div>
+      <div class="data-row"><span class="dk">Heat Index</span><span class="dv">Not provided</span></div>
+    </div>
+
+    <!-- Fox Weather -->
+    <div class="source-card">
+      <h3>Fox Weather <span class="src-badge">FOX</span></h3>
+      <div class="data-row"><span class="dk">Observation Time</span><span class="dv">8:35 PM EDT Jun 11</span></div>
+      <div class="data-row"><span class="dk">Current Temp</span><span class="dv hi">70°F</span></div>
+      <div class="data-row"><span class="dk">Feels Like</span><span class="dv">70°F</span></div>
+      <div class="data-row"><span class="dk">Today's High / Low</span><span class="dv"><span style="color:#ff8080">90°F</span> / <span style="color:#80c8ff">66°F</span></span></div>
+      <div class="data-row"><span class="dk">Tonight Low</span><span class="dv lo">69°F</span></div>
+      <div class="data-row"><span class="dk">Wind</span><span class="dv">SW 5 mph</span></div>
+      <div class="data-row"><span class="dk">UV Index</span><span class="dv ok">0 (Night)</span></div>
+      <div class="data-row"><span class="dk">Air Quality</span><span class="dv ok">Good</span></div>
+      <div class="data-row"><span class="dk">Precip Recorded</span><span class="dv ok">0 in</span></div>
+      <div class="data-row"><span class="dk">Precip Chance (Tonight)</span><span class="dv">24%</span></div>
+      <div class="data-row"><span class="dk">9 PM: Temp / Humidity</span><span class="dv">70°F / 98%</span></div>
+      <div class="data-row"><span class="dk">10 PM: Temp / Humidity</span><span class="dv">70°F / 99%</span></div>
+      <div class="data-row"><span class="dk">11 PM: Temp / Humidity</span><span class="dv">70°F / 97%</span></div>
+      <div class="data-row"><span class="dk">12 AM: Temp / Humidity</span><span class="dv">73°F / 90%</span></div>
+      <div class="data-row"><span class="dk">Tonight Conditions</span><span class="dv">Some clouds. SSW 5–10 mph.</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     HOURLY BREAKDOWN (NWS Digital)
+══════════════════════════════════════════════ -->
+<section>
+  <h2>&#128336; Hourly Breakdown — NWS Digital Forecast</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Temp (°F)</th>
+          <th>Dew Pt (°F)</th>
+          <th>Heat Idx (°F)</th>
+          <th>Humidity (%)</th>
+          <th>Sky Cover (%)</th>
+          <th>Precip (%)</th>
+          <th>Rain</th>
+          <th>Thunder</th>
+          <th>Wind</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="day-divider"><td colspan="10">— Wednesday, June 11, 2026 (Evening) —</td></tr>
+        <tr>
+          <td>8:00 PM</td>
+          <td class="cell-hot">82</td>
+          <td>68</td>
+          <td class="cell-hot">84</td>
+          <td class="cell-ok">64%</td>
+          <td>57%</td>
+          <td>11%</td>
+          <td>—</td>
+          <td>—</td>
+          <td>SW 6 mph</td>
+        </tr>
+        <tr>
+          <td>9:00 PM</td>
+          <td class="cell-warm">78</td>
+          <td>69</td>
+          <td class="cell-warm">78</td>
+          <td>73%</td>
+          <td>48%</td>
+          <td>2%</td>
+          <td>—</td>
+          <td>—</td>
+          <td>SW 6 mph</td>
+        </tr>
+        <tr>
+          <td>10:00 PM</td>
+          <td class="cell-warm">77</td>
+          <td>70</td>
+          <td class="cell-warm">77</td>
+          <td>79%</td>
+          <td>59%</td>
+          <td>3%</td>
+          <td>—</td>
+          <td>—</td>
+          <td>S 7 mph</td>
+        </tr>
+        <tr>
+          <td>11:00 PM</td>
+          <td class="cell-warm">76</td>
+          <td>70</td>
+          <td class="cell-warm">76</td>
+          <td>84%</td>
+          <td>59%</td>
+          <td>2%</td>
+          <td>—</td>
+          <td>—</td>
+          <td>S 7 mph</td>
+        </tr>
+
+        <tr class="day-divider"><td colspan="10">— Thursday, June 12, 2026 (Overnight into Day) —</td></tr>
+        <tr>
+          <td>12:00 AM</td>
+          <td class="cell-warm">74</td>
+          <td>70</td>
+          <td class="cell-warm">77</td>
+          <td>87%</td>
+          <td>53%</td>
+          <td>2%</td>
+          <td>—</td>
+          <td>—</td>
+          <td>S 7 mph</td>
+        </tr>
+        <tr>
+          <td>1:00 AM</td>
+          <td class="cell-warm">74</td>
+          <td>70</td>
+          <td class="cell-hot">83</td>
+          <td>87%</td>
+          <td>37%</td>
+          <td>9%</td>
+          <td>—</td>
+          <td>—</td>
+          <td>S 7 mph</td>
+        </tr>
+        <tr>
+          <td>2:00 AM</td>
+          <td class="cell-warm">72</td>
+          <td>69</td>
+          <td class="cell-hot">86</td>
+          <td>91%</td>
+          <td>51%</td>
+          <td class="cell-med-pcpn">17%</td>
+          <td>SChc</td>
+          <td>SChc</td>
+          <td>SW 7 mph</td>
+        </tr>
+        <tr>
+          <td>3:00 AM</td>
+          <td class="cell-warm">72</td>
+          <td>69</td>
+          <td class="cell-hot">87</td>
+          <td>90%</td>
+          <td>57%</td>
+          <td class="cell-med-pcpn">25%</td>
+          <td>Chc</td>
+          <td>SChc</td>
+          <td>S 8 mph</td>
+        </tr>
+        <tr>
+          <td>4:00 AM</td>
+          <td class="cell-warm">72</td>
+          <td>69</td>
+          <td class="cell-hot">85</td>
+          <td>91%</td>
+          <td>54%</td>
+          <td class="cell-med-pcpn">24%</td>
+          <td>SChc</td>
+          <td>SChc</td>
+          <td>S 8 mph</td>
+        </tr>
+        <tr>
+          <td>5:00 AM</td>
+          <td class="cell-warm">71</td>
+          <td>68</td>
+          <td class="cell-hot">87</td>
+          <td>91%</td>
+          <td>56%</td>
+          <td class="cell-med-pcpn">21%</td>
+          <td>SChc</td>
+          <td>—</td>
+          <td>S 8 mph</td>
+        </tr>
+        <tr>
+          <td>6:00 AM</td>
+          <td class="cell-warm">72</td>
+          <td>68</td>
+          <td class="cell-hot">84</td>
+          <td>88%</td>
+          <td>55%</td>
+          <td class="cell-med-pcpn">17%</td>
+          <td>SChc</td>
+          <td>—</td>
+          <td>S 9 mph</td>
+        </tr>
+        <tr>
+          <td>7:00 AM</td>
+          <td class="cell-warm">72</td>
+          <td>68</td>
+          <td class="cell-hot">84</td>
+          <td>87%</td>
+          <td>40%</td>
+          <td>12%</td>
+          <td>—</td>
+          <td>—</td>
+          <td>SW 9 mph</td>
+        </tr>
+        <tr>
+          <td>8:00 AM</td>
+          <td class="cell-warm">74</td>
+          <td>69</td>
+          <td class="cell-hot">83</td>
+          <td>83%</td>
+          <td>42%</td>
+          <td>11%</td>
+          <td>—</td>
+          <td>—</td>
+          <td>SW 11 mph</td>
+        </tr>
+        <tr>
+          <td>9:00 AM</td>
+          <td class="cell-warm">77</td>
+          <td>70</td>
+          <td class="cell-hot">82</td>
+          <td>79%</td>
+          <td>44%</td>
+          <td>12%</td>
+          <td>—</td>
+          <td>—</td>
+          <td>SW 11 mph</td>
+        </tr>
+        <tr>
+          <td>10:00 AM</td>
+          <td class="cell-warm">80</td>
+          <td>71</td>
+          <td class="cell-hot">81</td>
+          <td>75%</td>
+          <td>51%</td>
+          <td class="cell-med-pcpn">25%</td>
+          <td>Chc</td>
+          <td>—</td>
+          <td>W 13 mph</td>
+        </tr>
+        <tr>
+          <td>11:00 AM</td>
+          <td class="cell-hot">81</td>
+          <td>72</td>
+          <td>—</td>
+          <td>74%</td>
+          <td>81%</td>
+          <td class="cell-hi-pcpn">71%</td>
+          <td>Lkly</td>
+          <td>SChc</td>
+          <td>W 13 mph</td>
+        </tr>
+        <tr>
+          <td>12:00 PM</td>
+          <td class="cell-hot">82</td>
+          <td>73</td>
+          <td>—</td>
+          <td>76%</td>
+          <td>85%</td>
+          <td class="cell-hi-pcpn">77%</td>
+          <td>Ocnl</td>
+          <td>SChc</td>
+          <td>W 13 mph</td>
+        </tr>
+        <tr>
+          <td>1:00 PM</td>
+          <td class="cell-hot">81</td>
+          <td>73</td>
+          <td>—</td>
+          <td>79%</td>
+          <td>89%</td>
+          <td class="cell-hi-pcpn">71%</td>
+          <td>Lkly</td>
+          <td>SChc</td>
+          <td>W 13 mph</td>
+        </tr>
+        <tr>
+          <td>2:00 PM</td>
+          <td class="cell-hot">82</td>
+          <td>73</td>
+          <td>—</td>
+          <td>75%</td>
+          <td>75%</td>
+          <td class="cell-hi-pcpn">62%</td>
+          <td>Lkly</td>
+          <td>Chc</td>
+          <td>W 13 mph</td>
+        </tr>
+        <tr>
+          <td>3:00 PM</td>
+          <td class="cell-warm">80</td>
+          <td>72</td>
+          <td>—</td>
+          <td>77%</td>
+          <td>60%</td>
+          <td class="cell-med-pcpn">40%</td>
+          <td>Chc</td>
+          <td>Chc</td>
+          <td>W 11 mph</td>
+        </tr>
+        <tr>
+          <td>4:00 PM</td>
+          <td class="cell-warm">80</td>
+          <td>70</td>
+          <td>—</td>
+          <td>71%</td>
+          <td>40%</td>
+          <td class="cell-med-pcpn">21%</td>
+          <td>SChc</td>
+          <td>SChc</td>
+          <td>W 11 mph</td>
+        </tr>
+        <tr>
+          <td>5:00 PM</td>
+          <td class="cell-hot">81</td>
+          <td>68</td>
+          <td>—</td>
+          <td>64%</td>
+          <td>32%</td>
+          <td>6%</td>
+          <td>—</td>
+          <td>—</td>
+          <td>W 10 mph</td>
+        </tr>
+        <tr>
+          <td>6:00 PM</td>
+          <td class="cell-warm">80</td>
+          <td>66</td>
+          <td>—</td>
+          <td>63%</td>
+          <td>20%</td>
+          <td>1%</td>
+          <td>—</td>
+          <td>—</td>
+          <td>NW 10 mph</td>
+        </tr>
+        <tr>
+          <td>7:00 PM</td>
+          <td class="cell-warm">79</td>
+          <td>64</td>
+          <td>—</td>
+          <td>61%</td>
+          <td>9%</td>
+          <td>0%</td>
+          <td>—</td>
+          <td>—</td>
+          <td>NW 9 mph (G21)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:.78rem;color:var(--muted);margin-top:10px;">
+    Source: NWS Digital Forecast &bull; 40.38°N 79.82°W &bull; Elev 1,155 ft &bull; Last updated 8:41 PM EDT Jun 11, 2026 &bull;
+    SChc = Slight Chance (&lt;20%), Chc = Chance (20–50%), Lkly = Likely (50–80%), Ocnl = Occasional (&gt;80%)
+  </p>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CROSS-SOURCE COMPARISON TABLE
+══════════════════════════════════════════════ -->
+<section>
+  <h2>&#128202; Cross-Source Comparison</h2>
+  <div class="comp-wrap">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th style="text-align:left;padding-left:14px">Metric</th>
+          <th>NWS Standard</th>
+          <th>NWS Digital</th>
+          <th>Weather Underground</th>
+          <th>Fox Weather</th>
+          <th class="consensus-col">Consensus</th>
+          <th class="consensus-col" style="color:var(--accent4)">Confidence</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Current Temp (evening)</td>
+          <td>72°F (7:53 PM)</td>
+          <td>82°F (8 PM fcst)</td>
+          <td>71°F</td>
+          <td>70°F (8:35 PM)</td>
+          <td class="consensus-col">~71°F obs.</td>
+          <td class="consensus-col"><span class="badge-hi">HIGH</span></td>
+        </tr>
+        <tr>
+          <td>Today's High</td>
+          <td>Not stated</td>
+          <td>~82–84°F (gridded)</td>
+          <td>Not stated</td>
+          <td>90°F</td>
+          <td class="consensus-col">84–90°F</td>
+          <td class="consensus-col"><span class="badge-lo">LOW</span></td>
+        </tr>
+        <tr>
+          <td>Tonight's Low</td>
+          <td>70°F</td>
+          <td>71°F (~5 AM)</td>
+          <td>~70°F</td>
+          <td>69°F</td>
+          <td class="consensus-col">69–70°F</td>
+          <td class="consensus-col"><span class="badge-hi">HIGH</span></td>
+        </tr>
+        <tr>
+          <td>Humidity (current)</td>
+          <td>87%</td>
+          <td>64% (8 PM fcst)</td>
+          <td>98%</td>
+          <td>98%</td>
+          <td class="consensus-col">87–99% (obs)</td>
+          <td class="consensus-col"><span class="badge-med">MED</span></td>
+        </tr>
+        <tr>
+          <td>Dew Point</td>
+          <td>68°F</td>
+          <td>68°F (8 PM)</td>
+          <td>69°F</td>
+          <td>Not stated</td>
+          <td class="consensus-col">68–69°F</td>
+          <td class="consensus-col"><span class="badge-hi">HIGH</span></td>
+        </tr>
+        <tr>
+          <td>Heat Index</td>
+          <td>Not stated</td>
+          <td>84°F (8 PM fcst)</td>
+          <td>Not stated</td>
+          <td>70°F (Feels Like)</td>
+          <td class="consensus-col">~70–84°F</td>
+          <td class="consensus-col"><span class="badge-med">MED</span></td>
+        </tr>
+        <tr>
+          <td>Precip Chance (Tonight)</td>
+          <td>30%</td>
+          <td>25% (peak 3 AM)</td>
+          <td>24%</td>
+          <td>24%</td>
+          <td class="consensus-col">24–30%</td>
+          <td class="consensus-col"><span class="badge-hi">HIGH</span></td>
+        </tr>
+        <tr>
+          <td>Wind (current)</td>
+          <td>SW 7 mph</td>
+          <td>SW 6 mph (8 PM)</td>
+          <td>Not stated</td>
+          <td>SW 5 mph</td>
+          <td class="consensus-col">SW 5–7 mph</td>
+          <td class="consensus-col"><span class="badge-hi">HIGH</span></td>
+        </tr>
+        <tr>
+          <td>UV Index</td>
+          <td>Not stated</td>
+          <td>Not stated</td>
+          <td>Not stated</td>
+          <td>0 (Night)</td>
+          <td class="consensus-col">0 (Nighttime)</td>
+          <td class="consensus-col"><span class="badge-hi">HIGH</span></td>
+        </tr>
+        <tr>
+          <td>Sky Condition</td>
+          <td>Fair</td>
+          <td>57% cover (8 PM)</td>
+          <td>Partly Cloudy</td>
+          <td>Clear / Sunny</td>
+          <td class="consensus-col">Fair to Partly Cloudy</td>
+          <td class="consensus-col"><span class="badge-hi">HIGH</span></td>
+        </tr>
+        <tr>
+          <td>Barometric Pressure</td>
+          <td>29.87 in</td>
+          <td>Not stated</td>
+          <td>29.8 in</td>
+          <td>1009–1010 mb</td>
+          <td class="consensus-col">29.8–29.87 in</td>
+          <td class="consensus-col"><span class="badge-hi">HIGH</span></td>
+        </tr>
+        <tr>
+          <td>Tomorrow (Jun 12) High</td>
+          <td>84°F</td>
+          <td>84°F (2–3 PM)</td>
+          <td>84°F</td>
+          <td>Not stated</td>
+          <td class="consensus-col">84°F</td>
+          <td class="consensus-col"><span class="badge-hi">HIGH</span></td>
+        </tr>
+        <tr>
+          <td>Visibility</td>
+          <td>10.0 mi</td>
+          <td>Not stated</td>
+          <td>10 mi</td>
+          <td>Not stated</td>
+          <td class="consensus-col">10 miles</td>
+          <td class="consensus-col"><span class="badge-hi">HIGH</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:.78rem;color:var(--muted);margin-top:10px;">
+    <strong style="color:var(--accent2)">Note on Discrepancy:</strong>
+    Fox Weather reports today's high as 90°F while NWS gridded data suggests ~82–84°F. NWS Standard did not publish today's high explicitly.
+    WU showed current conditions only. The 90°F figure may reflect an isolated station reading or a model artifact.
+    The NWS Tomorrow High of 84°F from three sources provides very high agreement.
+  </p>
+  <p style="font-size:.78rem;color:var(--muted);margin-top:6px;">
+    <strong style="color:var(--accent2)">Note on Humidity Discrepancy:</strong>
+    NWS Digital forecast shows 64% RH at 8 PM while observed stations (NWS, WU, Fox) report 87–99%.
+    Gridded model forecasts often differ from point observations, especially in humid summer evenings.
+  </p>
+</section>
+
+</main>
+
+<footer>
+  Report generated: June 11, 2026 &bull; Sources:
+  <a href="https://forecast.weather.gov/MapClick.php?CityName=North+Versailles&state=PA&site=PBZ&textField1=40.3726&textField2=-79.8148" target="_blank">NWS</a> &bull;
+  <a href="https://www.wunderground.com/forecast/us/pa/north-versailles/15137" target="_blank">Weather Underground</a> &bull;
+  <a href="https://www.foxweather.com/local-weather/pennsylvania/north-versailles" target="_blank">Fox Weather</a> &bull;
+  AccuWeather (timeout during retrieval)
+  <br/>Compiled by Kris's AI Weather Report &mdash; Claude AI
+</footer>
+
+</body>
+</html>

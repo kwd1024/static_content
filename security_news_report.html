@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kris's AI Security News — Thursday, June 11, 2026</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: #0d1117;
+            color: #e6edf3;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            padding-top: 90px;
+        }
+
+        /* ── Sticky header ── */
+        .site-header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: #161b22;
+            border-bottom: 1px solid #30363d;
+            z-index: 1000;
+            padding: 10px 24px 6px;
+        }
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .header-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #f0883e;
+            letter-spacing: -0.01em;
+        }
+        .header-ts {
+            font-size: 0.8rem;
+            color: #8b949e;
+            white-space: nowrap;
+        }
+        .header-sub {
+            max-width: 1100px;
+            margin: 6px auto 0;
+            font-size: 0.73rem;
+            color: #6e7681;
+            border-top: 1px solid #21262d;
+            padding-top: 5px;
+            text-align: center;
+        }
+
+        /* ── Container ── */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 28px 20px 40px;
+        }
+
+        /* ── Cards ── */
+        .card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 18px 20px;
+            margin-bottom: 14px;
+            display: grid;
+            grid-template-columns: 54px 1fr;
+            gap: 14px;
+            transition: border-color 0.18s, box-shadow 0.18s;
+        }
+        .card:hover {
+            border-color: #f0883e;
+            box-shadow: 0 0 0 1px #f0883e22;
+        }
+        .card-rank {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #21262d;
+            line-height: 1;
+            padding-top: 3px;
+            text-align: right;
+            user-select: none;
+        }
+        .card-body {}
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 6px;
+        }
+
+        /* ── Badges ── */
+        .badge {
+            display: inline-block;
+            padding: 2px 9px;
+            border-radius: 20px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .badge-breach     { background: #8b1a1a; color: #ffcccc; }
+        .badge-vuln       { background: #7a3e00; color: #ffd8a8; }
+        .badge-healthcare { background: #0d3b5e; color: #b3d9ff; }
+        .badge-ai         { background: #1a3a1a; color: #b3ffb3; }
+
+        .card-source {
+            font-size: 0.74rem;
+            color: #6e7681;
+            font-style: italic;
+        }
+        .card-headline {
+            font-size: 1.02rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 2px;
+        }
+        .card-headline a {
+            color: #e6edf3;
+            text-decoration: none;
+        }
+        .card-headline a:hover {
+            color: #f0883e;
+            text-decoration: underline;
+        }
+        .card-summary {
+            font-size: 0.855rem;
+            color: #8b949e;
+            margin-top: 7px;
+            line-height: 1.65;
+        }
+
+        /* ── Footer ── */
+        .site-footer {
+            text-align: center;
+            padding: 28px 20px;
+            color: #6e7681;
+            font-size: 0.8rem;
+            border-top: 1px solid #21262d;
+        }
+    </style>
+</head>
+<body>
+
+<header class="site-header">
+    <div class="header-row">
+        <div class="header-title">&#x1F6E1; Kris's Daily Security Intelligence Report</div>
+        <div class="header-ts">Thursday, June 11, 2026 &mdash; 11:59 PM</div>
+    </div>
+    <div class="header-sub">
+        Top 30 headlines &mdash; breaches, critical vulnerabilities, healthcare &amp; AI &nbsp;|&nbsp;
+        Sources: Krebs, THN, BleepingComputer, Dark Reading, Threatpost, Schneier, The Register, SANS ISC, ZDNet, Wired
+    </div>
+</header>
+
+<div class="container">
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 1 -->
+    <div class="card">
+        <div class="card-rank">1</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-breach">Breach</span>
+                <span class="card-source">BleepingComputer</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://www.bleepingcomputer.com/news/security/oracle-peoplesoft-servers-hacked-in-shinyhunters-data-theft-attacks/" target="_blank" rel="noopener noreferrer">
+                    Oracle PeopleSoft Servers Hacked in ShinyHunters Data Theft Attacks
+                </a>
+            </div>
+            <p class="card-summary">
+                The ShinyHunters extortion group launched a sweeping data-theft campaign against Oracle PeopleSoft installations, claiming to have breached over 100 organizations by exploiting a critical unauthenticated remote code execution zero-day (CVE-2026-35273) in PeopleTools versions 8.61–8.62. Victims span enterprises and universities across multiple continents, with the University of Nottingham confirmed as one of the compromised organizations and roughly 40 GB of data reportedly exfiltrated. The group is actively demanding ransom payments while threatening to publish stolen records.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 2 -->
+    <div class="card">
+        <div class="card-rank">2</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-vuln">Critical Vuln</span>
+                <span class="card-source">BleepingComputer</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://www.bleepingcomputer.com/news/security/oracle-mitigates-peoplesoft-zero-day-exploited-in-data-theft-attacks/" target="_blank" rel="noopener noreferrer">
+                    Oracle Mitigates PeopleSoft Zero-Day Exploited in Data Theft Attacks
+                </a>
+            </div>
+            <p class="card-summary">
+                Oracle issued an emergency out-of-band mitigation for CVE-2026-35273, a critical zero-day affecting PeopleTools 8.61 and 8.62 that allows unauthenticated attackers to achieve remote code execution with no user interaction required. The flaw was being actively weaponized by ShinyHunters before Oracle could finalize a full patch, putting every internet-exposed PeopleSoft deployment at immediate risk. Administrators are urged to apply the mitigation immediately and isolate affected systems pending a complete patch release.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 3 -->
+    <div class="card">
+        <div class="card-rank">3</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-vuln">Critical Vuln</span>
+                <span class="card-source">BleepingComputer</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://www.bleepingcomputer.com/news/security/max-severity-ivanti-sentry-vulnerability-now-exploited-in-attacks/" target="_blank" rel="noopener noreferrer">
+                    Max Severity Ivanti Sentry Vulnerability Now Exploited in Attacks
+                </a>
+            </div>
+            <p class="card-summary">
+                A maximum-severity (CVSS 10.0) vulnerability in Ivanti Sentry secure mobile gateways is being actively exploited in the wild, enabling attackers to execute arbitrary code with root privileges on internet-exposed appliances. The flaw affects Sentry deployments used as mobile device management gateways, meaning successful exploitation grants full control over enterprise MDM traffic. Organizations with Ivanti Sentry exposed to the internet should apply the available patch immediately or take appliances offline.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 4 -->
+    <div class="card">
+        <div class="card-rank">4</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-breach">Breach</span>
+                <span class="card-source">BleepingComputer</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://www.bleepingcomputer.com/news/security/south-korea-hits-coupang-with-record-409-million-fine-over-data-breach/" target="_blank" rel="noopener noreferrer">
+                    Coupang Hit With Record $409 Million Data Breach Fine in Korea
+                </a>
+            </div>
+            <p class="card-summary">
+                South Korea's Personal Information Protection Commission imposed a record 624.6 billion won (~$409 million USD) fine against e-commerce giant Coupang following a data breach that exposed personal information belonging to approximately 37 million customers. The penalty is the largest data-protection fine ever levied in South Korean history and exceeds the previous record by a significant margin. The case underscores Asia-Pacific regulators' growing willingness to impose punishing financial consequences for inadequate data security practices.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 5 -->
+    <div class="card">
+        <div class="card-rank">5</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-breach">Breach</span>
+                <span class="card-source">BleepingComputer</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://www.bleepingcomputer.com/news/security/japanese-energy-firm-loses-drive-with-data-of-109-million-clients/" target="_blank" rel="noopener noreferrer">
+                    Japanese Energy Firm Loses Drive With Data of 10.9 Million Clients
+                </a>
+            </div>
+            <p class="card-summary">
+                Kyushu Electric Power Co. disclosed a physical security incident in which a storage device containing personal information for over 10.9 million customers was lost, representing one of Japan's largest data exposures of 2026. Unlike the majority of this week's major incidents, this breach originated from physical mishandling rather than a cyberattack. Japanese regulators are expected to open a formal investigation into the energy company's data governance and media destruction procedures.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 6 -->
+    <div class="card">
+        <div class="card-rank">6</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-breach">Breach</span>
+                <span class="card-source">BleepingComputer / The Register</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://www.bleepingcomputer.com/news/security/nottingham-university-data-breach-affects-over-450-000-students/" target="_blank" rel="noopener noreferrer">
+                    Nottingham University Data Breach Affects Over 450,000 Students
+                </a>
+            </div>
+            <p class="card-summary">
+                The University of Nottingham confirmed that ShinyHunters gained unauthorized access to its student records systems, exposing data for current students and alumni — an estimated 455,000 email addresses and associated personal records across roughly 40 GB of stolen data. The breach was facilitated by exploitation of the Oracle PeopleSoft zero-day CVE-2026-35273, making Nottingham the first publicly confirmed victim of the broader campaign. ShinyHunters is threatening to publish the data unless ransom demands are met.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 7 -->
+    <div class="card">
+        <div class="card-rank">7</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-vuln">Critical Vuln</span>
+                <span class="card-source">BleepingComputer</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://www.bleepingcomputer.com/news/microsoft/microsoft-patches-exchange-server-zero-day-exploited-in-attacks/" target="_blank" rel="noopener noreferrer">
+                    Microsoft Patches Exchange Server Zero-Day Exploited in Attacks
+                </a>
+            </div>
+            <p class="card-summary">
+                Microsoft addressed an actively exploited Exchange Server zero-day vulnerability during June 2026 Patch Tuesday that allows attackers to execute arbitrary JavaScript against Outlook Web Access users through a cross-site scripting flaw. The bug was being used in targeted attacks before a fix was available, putting any organization running on-premises Exchange at risk of session hijacking and credential theft. Administrators should apply the patch immediately and review OWA access logs for signs of exploitation.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 8 -->
+    <div class="card">
+        <div class="card-rank">8</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-vuln">Critical Vuln</span>
+                <span class="card-source">BleepingComputer</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://www.bleepingcomputer.com/news/security/cisa-tells-govt-agencies-to-patch-critical-exploited-flaws-in-3-days/" target="_blank" rel="noopener noreferrer">
+                    CISA Tells Govt Agencies to Patch Critical Exploited Flaws in 3 Days
+                </a>
+            </div>
+            <p class="card-summary">
+                CISA issued Binding Operational Directive 26-04 slashing the remediation window for Federal Civilian Executive Branch agencies dealing with actively exploited critical vulnerabilities from seven days down to three. The directive reflects the accelerating gap between public disclosure and in-the-wild exploitation, driven in part by AI-assisted vulnerability research. Non-compliant agencies face potential directives to disconnect affected systems from federal networks until patches are applied.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 9 -->
+    <div class="card">
+        <div class="card-rank">9</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-vuln">Critical Vuln</span>
+                <span class="card-source">BleepingComputer</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://www.bleepingcomputer.com/news/security/path-traversal-flaw-in-ai-dev-platform-langflow-exploited-in-attacks/" target="_blank" rel="noopener noreferrer">
+                    Path Traversal Flaw in AI Dev Platform Langflow Exploited in Attacks
+                </a>
+            </div>
+            <p class="card-summary">
+                CVE-2026-5027, a high-severity path traversal vulnerability in the Langflow AI application development platform, is being actively exploited to write arbitrary files to servers through unsanitized filename parameters. Because Langflow is commonly deployed to orchestrate AI workflows with elevated cloud privileges, successful exploitation can expose AWS keys, model API tokens, and sensitive training data. No temporary workaround is available; users must upgrade to a patched release immediately.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 10 -->
+    <div class="card">
+        <div class="card-rank">10</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-vuln">Critical Vuln</span>
+                <span class="card-source">Krebs on Security</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://krebsonsecurity.com/2026/06/a-record-breaking-patch-tuesday-for-june-2026/" target="_blank" rel="noopener noreferrer">
+                    A Record-Breaking Patch Tuesday for June 2026
+                </a>
+            </div>
+            <p class="card-summary">
+                Microsoft's June 2026 Patch Tuesday addressed nearly 200 security vulnerabilities, setting an all-time record for a single monthly release cycle. Security researchers attribute the surge to the widespread adoption of AI-powered vulnerability discovery tools, with industry surveys showing roughly 90% of security professionals now using AI assistants to find flaws. Several of the patched bugs were confirmed to have been exploited in the wild prior to the patches' release.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 11 -->
+    <div class="card">
+        <div class="card-rank">11</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-vuln">Critical Vuln</span>
+                <span class="card-source">The Register</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://www.theregister.com/security/2026/06/11/nightmare-eclipse-drops-claimed-bitlocker-bypass-for-microsoft-windows/" target="_blank" rel="noopener noreferrer">
+                    Microsoft's Worst 'Nightmare' Unleashes BitLocker Bypass 0-Day
+                </a>
+            </div>
+            <p class="card-summary">
+                A researcher known as Nightmare Eclipse publicly disclosed a new Windows zero-day technique — dubbed GreatXML — that reportedly bypasses BitLocker full-disk encryption by exploiting recovery partition XML files to boot into the Windows Recovery Environment and extract protected data. The researcher also disclosed a separate BitLocker bypass route while Microsoft had not yet issued a patch or advisory. The disclosure continues a pattern of public exploit drops targeting Microsoft's most trusted security features.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 12 -->
+    <div class="card">
+        <div class="card-rank">12</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-vuln">Critical Vuln</span>
+                <span class="card-source">The Hacker News</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://thehackernews.com/2026/06/ivanti-fortinet-and-sap-release-patches.html" target="_blank" rel="noopener noreferrer">
+                    Ivanti, Fortinet, and SAP Release Critical Patches
+                </a>
+            </div>
+            <p class="card-summary">
+                Three major enterprise software vendors released out-of-cycle patches today, including a command injection flaw in Fortinet's FortiSandbox (CVE-2026-25089) that allows unauthenticated attackers to achieve remote code execution via malformed HTTP requests. Ivanti's release accompanies the actively exploited Sentry vulnerability, while SAP's patches address critical flaws in widely deployed business applications. Security teams running any of these products are urged to treat the updates as emergency deployments given the current threat landscape.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 13 -->
+    <div class="card">
+        <div class="card-rank">13</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-breach">Breach</span>
+                <span class="card-source">The Hacker News</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://thehackernews.com/2026/06/the-gentlemen-ransomware-claims-478.html" target="_blank" rel="noopener noreferrer">
+                    The Gentlemen Ransomware Claims 478 Victims, Operator LARVA-368 Unmasked
+                </a>
+            </div>
+            <p class="card-summary">
+                Security analysis reveals that The Gentlemen ransomware-as-a-service operation has evolved from a RaaS affiliate into a fully independent criminal enterprise led by a Russian-speaking operator tracked as LARVA-368, who is now publicly identified. The group has claimed 478 victims and differentiates itself by offering affiliates an unusually high 90/10 revenue split to attract skilled operators. Intelligence links LARVA-368 to earlier ransomware campaigns, suggesting a seasoned actor scaling up ambitions significantly since mid-2025.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 14 -->
+    <div class="card">
+        <div class="card-rank">14</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-breach">Breach</span>
+                <span class="card-source">Krebs on Security</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://krebsonsecurity.com/2026/06/who-runs-the-ransomware-group-the-gentlemen/" target="_blank" rel="noopener noreferrer">
+                    Who Runs the Ransomware Group 'The Gentlemen?'
+                </a>
+            </div>
+            <p class="card-summary">
+                Brian Krebs details how Check Point Software researchers traced the identity of the administrator behind The Gentlemen ransomware operation, which has claimed over 332 victims (with later tallies reaching 478) since launching in mid-2025 and currently ranks as the second most active ransomware gang by victim count. The group's 90/10 affiliate revenue split has made it a magnet for high-tier cybercriminals seeking a lucrative platform. The unmasking may assist law enforcement in building a case, but the operator remains at large in a jurisdiction that provides little extradition cooperation.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 15 -->
+    <div class="card">
+        <div class="card-rank">15</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-ai">AI</span>
+                <span class="card-source">The Hacker News</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://thehackernews.com/2026/06/new-attacks-trick-openclaw-ai-agent.html" target="_blank" rel="noopener noreferrer">
+                    New Attacks Trick OpenClaw AI Agent Into Executing Malicious Code, Leaking AWS Keys
+                </a>
+            </div>
+            <p class="card-summary">
+                Researchers demonstrated that OpenClaw AI agents can be hijacked through prompt injection attacks embedded in shared contacts — hidden instructions that instruct the agent to execute malicious code or exfiltrate sensitive credentials such as AWS access keys to attacker-controlled endpoints. The attack requires no direct access to the agent's host system and exploits the autonomous, high-trust nature of modern AI agents operating over shared data sources. One vector was patched in version 2026.4.23, but the researchers warn the underlying prompt injection class of vulnerability remains unsolved across the AI agent ecosystem.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 16 -->
+    <div class="card">
+        <div class="card-rank">16</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-ai">AI</span>
+                <span class="card-source">The Hacker News</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://thehackernews.com/2026/06/ai-broke-vulnerability-management-thats.html" target="_blank" rel="noopener noreferrer">
+                    AI Broke Vulnerability Management — Anthropic and Partners Discover 10,000+ Critical CVEs
+                </a>
+            </div>
+            <p class="card-summary">
+                Anthropic and collaborating security teams used Claude to discover over 10,000 critical vulnerabilities in systemically important software, compressing the timeline from vulnerability discovery to working exploit from months down to mere hours. The acceleration is fundamentally disrupting the economics of vulnerability management, rendering traditional 7-to-30-day patch windows obsolete for high-severity flaws. Security teams are being forced to adopt continuous patching models and risk-based triaging frameworks as AI-driven discovery outpaces human response capacity.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 17 -->
+    <div class="card">
+        <div class="card-rank">17</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-ai">AI</span>
+                <span class="card-source">The Hacker News</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://thehackernews.com/2026/06/threatsday-bulletin-worm-code-leaked-ai.html" target="_blank" rel="noopener noreferrer">
+                    ThreatsDay Bulletin: Miasma Worm Code Leaked, AI Agents Targeted by Phishing
+                </a>
+            </div>
+            <p class="card-summary">
+                The weekly threat roundup highlights three converging trends: the brief GitHub leak of the Miasma credential-stealing worm, which accelerates copycat supply-chain attacks; a new $5,000/month RAT offering with built-in browser session-cloning capabilities; and proof-of-concept demonstrations showing AI agents being targeted by phishing campaigns specifically designed to extract the API keys and cloud credentials they hold. The bulletin signals that AI agents are now firmly in attackers' crosshairs as high-value credential stores. Defenders are urged to implement strict secret-rotation policies for any environment running autonomous AI agents.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 18 -->
+    <div class="card">
+        <div class="card-rank">18</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-vuln">Critical Vuln</span>
+                <span class="card-source">BleepingComputer</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://www.bleepingcomputer.com/news/security/china-linked-jdy-botnet-expands-targeting-of-us-military-networks/" target="_blank" rel="noopener noreferrer">
+                    China-Linked JDY Botnet Expands Targeting of U.S. Military Networks
+                </a>
+            </div>
+            <p class="card-summary">
+                The JDY botnet — a network of over 1,500 compromised SOHO routers and IoT devices — has significantly expanded its reconnaissance and service-mapping activities against U.S. military infrastructure, according to new threat intelligence. Researchers have linked the botnet to Chinese state-sponsored groups including Volt Typhoon, suggesting this represents coordinated pre-positioning for potential future disruptive operations. The expanded targeting scope raises concerns about espionage and critical infrastructure resilience ahead of any geopolitical escalation.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 19 -->
+    <div class="card">
+        <div class="card-rank">19</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-breach">Breach</span>
+                <span class="card-source">The Hacker News</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://thehackernews.com/2026/06/oceanlotus-hits-vietnam-investors-with.html" target="_blank" rel="noopener noreferrer">
+                    OceanLotus Hits Vietnam Investors With SPECTRALVIPER in Supply Chain Campaign
+                </a>
+            </div>
+            <p class="card-summary">
+                The Vietnam-aligned OceanLotus (APT32) threat group deployed its SPECTRALVIPER backdoor against domestic financial infrastructure and retail stock investors by compromising software update mechanisms in a sophisticated supply chain attack. The campaign marks a notable shift in the group's focus toward internal Vietnamese espionage targets rather than its traditional externally-facing operations. Victims received the backdoor through trusted software update pipelines, making detection particularly difficult without behavioral monitoring.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 20 -->
+    <div class="card">
+        <div class="card-rank">20</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-vuln">Critical Vuln</span>
+                <span class="card-source">Schneier on Security</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://www.schneier.com/blog/archives/2026/06/nso-group-hacking-whatsapp-despite-court-order.html" target="_blank" rel="noopener noreferrer">
+                    NSO Group Hacking WhatsApp Despite Court Order
+                </a>
+            </div>
+            <p class="card-summary">
+                WhatsApp security teams detected NSO Group actively conducting phishing operations against platform users in direct defiance of a court order explicitly prohibiting the spyware vendor from targeting WhatsApp or its users. The continued operations reveal that legal sanctions have done little to halt NSO Group's activities, and that the company is willing to violate judicial rulings to serve its government clients. Bruce Schneier notes this incident raises fundamental questions about the enforceability of legal remedies against offshore mercenary spyware vendors.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 21 -->
+    <div class="card">
+        <div class="card-rank">21</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-breach">Breach</span>
+                <span class="card-source">BleepingComputer</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://www.bleepingcomputer.com/news/legal/authorities-dismantle-audia6-ransomware-crypto-laundering-service/" target="_blank" rel="noopener noreferrer">
+                    Authorities Dismantle 'AudiA6' Ransomware Crypto-Laundering Service
+                </a>
+            </div>
+            <p class="card-summary">
+                An international law enforcement operation successfully dismantled AudiA6, a cryptocurrency mixing and laundering service allegedly used by ransomware operators to launder over $380 million in illicit proceeds from victim payments. The takedown represents a significant strike against the financial infrastructure that makes ransomware economically viable by disrupting the money-laundering pipeline. Arrests and asset seizures are expected as part of the ongoing investigation, with suspects believed to be located in Eastern Europe.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 22 -->
+    <div class="card">
+        <div class="card-rank">22</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-breach">Breach</span>
+                <span class="card-source">BleepingComputer</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://www.bleepingcomputer.com/news/security/maine-breach-portal-abused-to-publish-fake-data-breach-disclosures/" target="_blank" rel="noopener noreferrer">
+                    Maine Breach Portal Abused to Publish Fake Data Breach Disclosures
+                </a>
+            </div>
+            <p class="card-summary">
+                Bad actors submitted fabricated data breach notification letters to Maine's official public breach disclosure portal, generating legitimate-looking filings that named real companies as having suffered major incidents before the state's manual verification process could catch the fraud. Multiple companies — including VRChat — were forced to issue rapid public denials as cybersecurity news outlets picked up and amplified the false claims. The incident exposes a systemic weakness in breach self-reporting frameworks that lack real-time identity verification for submitters.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 23 -->
+    <div class="card">
+        <div class="card-rank">23</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-breach">Breach</span>
+                <span class="card-source">The Register</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://www.theregister.com/security/2026/06/11/24m-vrchat-users-data-accessed-following-cloud-breach/" target="_blank" rel="noopener noreferrer">
+                    VRChat Says Somebody Faked a Breach Notice With the Maine AG's Office
+                </a>
+            </div>
+            <p class="card-summary">
+                VRChat publicly denied a widely circulated data breach report claiming 24 million user accounts were compromised after discovering the notification letter purportedly filed with the Maine Attorney General's office was entirely fabricated. The false filing exploited Maine's self-service breach disclosure portal to create the appearance of an official regulatory disclosure, triggering a wave of media coverage before VRChat could respond. The company is working with law enforcement to identify the individual who submitted the fraudulent notification.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 24 -->
+    <div class="card">
+        <div class="card-rank">24</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-vuln">Critical Vuln</span>
+                <span class="card-source">BleepingComputer</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://www.bleepingcomputer.com/news/security/the-miasma-worm-source-code-briefly-leaked-on-github/" target="_blank" rel="noopener noreferrer">
+                    The 'Miasma' Worm Source Code Briefly Leaked on GitHub
+                </a>
+            </div>
+            <p class="card-summary">
+                The full source code for Miasma — a sophisticated credential-stealing worm recently used in open-source supply chain attacks — was briefly published to a public GitHub repository before being taken down following abuse reports. Even the brief exposure is enough for threat actors to fork the code and launch derivative campaigns, significantly lowering the barrier for supply chain attacks targeting developer environments. Security researchers captured the code during the window and are developing detection signatures to counter potential Miasma-based variants.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 25 -->
+    <div class="card">
+        <div class="card-rank">25</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-vuln">Critical Vuln</span>
+                <span class="card-source">BleepingComputer</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://www.bleepingcomputer.com/news/security/github-announces-npm-security-changes-to-tackle-supply-chain-attacks/" target="_blank" rel="noopener noreferrer">
+                    GitHub Announces npm Security Changes to Tackle Supply-Chain Attacks
+                </a>
+            </div>
+            <p class="card-summary">
+                GitHub announced that npm v12 will disable lifecycle install scripts by default, requiring explicit developer authorization before any code runs automatically during package installation — directly blocking the primary vector used in typosquatting and dependency confusion supply chain attacks. The change addresses years of community concern about malicious packages silently executing code the moment a developer runs <code>npm install</code>. The update is expected to substantially reduce the blast radius of future supply chain compromises targeting the JavaScript and Node.js ecosystem.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 26 -->
+    <div class="card">
+        <div class="card-rank">26</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-ai">AI</span>
+                <span class="card-source">Krebs on Security</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://krebsonsecurity.com/2026/06/hackers-used-metas-ai-support-bot-to-seize-instagram-accounts/" target="_blank" rel="noopener noreferrer">
+                    Hackers Used Meta's AI Support Bot to Seize Instagram Accounts
+                </a>
+            </div>
+            <p class="card-summary">
+                Pro-Iranian hackers exploited a flaw in Meta's AI-powered customer support bot to reset Instagram account passwords and take over high-profile accounts including those belonging to the Obama White House and U.S. Space Force pages. The attack leveraged the AI assistant's automated account recovery workflows to bypass standard multi-factor authentication controls without direct user interaction. Meta deployed an emergency patch after the technique was publicly documented in a Telegram channel, but not before several high-visibility accounts were compromised.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 27 -->
+    <div class="card">
+        <div class="card-rank">27</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-vuln">Critical Vuln</span>
+                <span class="card-source">SANS Internet Storm Center</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://isc.sans.edu/podcastdetail/9968" target="_blank" rel="noopener noreferrer">
+                    SANS Stormcast June 11: Adobe Patches, New Windows Defender 0-Day, npm Hardening
+                </a>
+            </div>
+            <p class="card-summary">
+                SANS ISC's daily briefing covers Adobe's June patch release addressing critical flaws in Creative Cloud products, a newly-discovered Windows Defender zero-day that could allow attackers to bypass real-time protection on fully patched systems, and discussion of browser framing protection improvements. The Defender flaw is of particular concern given its ubiquity across enterprise Windows deployments. The episode also covers npm's forthcoming install-script lockdown as a positive supply chain hardening measure.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 28 -->
+    <div class="card">
+        <div class="card-rank">28</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-vuln">Critical Vuln</span>
+                <span class="card-source">BleepingComputer</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-bitlocker-recovery-bug-on-windows-server-2025/" target="_blank" rel="noopener noreferrer">
+                    Microsoft Fixes BitLocker Recovery Bug on Windows Server 2025
+                </a>
+            </div>
+            <p class="card-summary">
+                Microsoft resolved a known issue causing certain Windows Server 2025 machines to boot unexpectedly into BitLocker recovery mode following the April 2026 cumulative security updates, locking administrators out of their own servers. The bug affected organizations that had deployed the April patches and surfaced as high-priority in the hours following this week's Patch Tuesday rollout. Administrators should apply the June update to resolve the issue and implement the fix before the next scheduled maintenance window.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 29 -->
+    <div class="card">
+        <div class="card-rank">29</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-breach">Breach</span>
+                <span class="card-source">The Register</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://www.theregister.com/cyber-crime/2026/06/11/yet-another-uk-school-closure-owing-to-cyberattack/" target="_blank" rel="noopener noreferrer">
+                    Malware Scare Keeps UK Schoolkids Home for a Second Day
+                </a>
+            </div>
+            <p class="card-summary">
+                Great Marlow School in the UK extended network-wide access restrictions and sent students home for a second consecutive day while IT staff investigated a suspected malware infection that triggered safety protocols across school systems. The incident reflects a continuing pattern of UK educational institutions falling victim to ransomware and malware campaigns that disproportionately affect under-resourced school IT teams. No further details about the malware variant or attack vector have been officially released.
+            </p>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ CARD 30 -->
+    <div class="card">
+        <div class="card-rank">30</div>
+        <div class="card-body">
+            <div class="card-meta">
+                <span class="badge badge-breach">Breach</span>
+                <span class="card-source">Schneier on Security</span>
+            </div>
+            <div class="card-headline">
+                <a href="https://www.schneier.com/blog/archives/2026/06/enhanced-license-plate-tracking.html" target="_blank" rel="noopener noreferrer">
+                    Enhanced License Plate Readers Will Also Track Bluetooth Devices and Wearables
+                </a>
+            </div>
+            <p class="card-summary">
+                Leonardo's surveillance division is planning to augment standard automatic license plate reader (ALPR) cameras with Bluetooth and other wireless sensors capable of identifying and logging mobile devices, wearables, and other connected gadgets present inside passing vehicles. The upgrade would transform existing ALPR infrastructure into a mass-population tracker correlating vehicle movement with individual device identities. Schneier notes that while smartphone location data already achieves similar coverage, combining it with ALPR creates a persistent, correlated record that is qualitatively more invasive than either capability alone.
+            </p>
+        </div>
+    </div>
+
+</div><!-- /container -->
+
+<footer class="site-footer">
+    Generated by Claude Code on Thursday, June 11, 2026. Sources queried within the last 24 hours. Click any headline to read the full article.
+</footer>
+
+</body>
+</html>
